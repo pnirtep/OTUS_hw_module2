@@ -44,3 +44,42 @@ search_to_file.py и create_search_result_to_file.py - сделано через
             print('Удачи в поисках!')
             exit()
 ```
+
+Данные о поисковой ситеме, запросе и количестве уходят в соответствующие функции:
+Для обработки данных с яндекса
+
+```python
+//python code
+    def show_result_ya(url, num):
+    # поисковый запрос
+    r = requests.get(url)
+    res = r.text
+    soup = BeautifulSoup(res, 'html.parser')
+    list = []
+    for element in soup.find("ul", {"class": "serp-list serp-list_left_yes"}).find_all('a', {
+        "class": 'link link_theme_outer path__item i-bem'}):
+        y = "Результат: {0}\n{1}".format(element.text, element.get('href'))
+        # сохранение результатов в список для дальнешейго пользования
+        list.append(y)
+
+    for i in range(0, int(num)):
+        print(list[i])
+```
+
+Для обработки данных с гугла
+
+```python
+//python code
+    def show_result_go(url, num):
+    r = requests.get(url)
+    res = r.text
+    soup = BeautifulSoup(res, 'html.parser')
+    list = []
+    for element in soup.find_all("div", {"class": "ZINbbc xpd O9g5cc uUPGi"}):
+
+        link = "Результат: {0}".format(element.text)
+        list.append(link)
+    for i in range(0, int(num)):
+        print(list[i])
+```
+
